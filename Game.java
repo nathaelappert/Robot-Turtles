@@ -178,6 +178,14 @@ public class Game{
     }
     
     public static boolean ispathright(String joueur){
+        switch (nbrjoueurs){
+            case 2 :
+                break;
+            case 3 :
+                break;
+            case 4:
+                break;
+        }
         joueur.positionjoueur[];
         Joyau.getposition();
     }
