@@ -176,6 +176,10 @@ public class Game{
         }while( programme.size()!=nombreCarte);
         ListeProg.set(Tourdujoueur.getNum(), programme);
     }
-
+    
+    public static boolean ispathright(String joueur){
+        
+    }
+   
 
 }
