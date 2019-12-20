@@ -178,7 +178,8 @@ public class Game{
     }
     
     public static boolean ispathright(String joueur){
-        joueur.positionjoueur[]
+        joueur.positionjoueur[];
+        Joyau.getposition();
     }
    
 
