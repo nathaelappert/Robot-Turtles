@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 public class MainJoueur {
     private ArrayList<String> mainjoueur;
+    private int NumeroMain;
 
 
-    public MainJoueur() {
+    public MainJoueur(int numM) {
         mainjoueur = new ArrayList<String>();
+        this.NumeroMain=numM;
     }
 
     public void pioche(JeuxCartes paquet,int piocher) {
@@ -40,6 +42,9 @@ public class MainJoueur {
 
     public void remove(int i) {
         mainjoueur.remove(i);
+    }
+    public int getNum() {
+        return NumeroMain;
     }
 }
 

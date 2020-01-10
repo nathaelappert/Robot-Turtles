@@ -5,13 +5,7 @@ import java.util.Scanner;
 
 public class Plateau {
 
-    public static void main(String[] args) {
-        Game game = new Game();
-        game.initialisationJeu();
-        game.Jouer();
 
-
-    }
 
     private static char[][] plateau;
     private static int[] position= new int[2];
@@ -61,65 +55,6 @@ public class Plateau {
         }
     }
 
-    public static void deplacement(ArrayDeque<String> instructions){
-        System.out.println("Instructions: "+instructions);
-        for (int i=0; i<5;i++) {
-            if (instructions.peek().equals("A")) {
-                if (direction == 'N' && position[0]!=0) {
-                    plateau[position[0]][position[1]] = ' ';
-                    plateau[position[0] - 1][position[1]] = 'X';
-                    position[0] -= 1;
-                }
-                else if (direction == 'S' && position[0]!=7) {
-                    plateau[position[0]][position[1]] = ' ';
-                    plateau[position[0] + 1][position[1]] = 'X';
-                    position[0] += 1;
-                }
-                else if (direction == 'E' && position[1]!=7) {
-                    plateau[position[0]][position[1]] = ' ';
-                    plateau[position[0]][position[1] + 1] = 'X';
-                    position[1] += 1;
-                }
-                else if (direction == 'O' && position[1]!=0) {
-                    plateau[position[0]][position[1]] = ' ';
-                    plateau[position[0]][position[1] - 1] = 'X';
-                    position[1] -= 1;
-                }
-                instructions.remove();
-            }
-            else if (instructions.peek().equals("G")) {
-                if (direction == 'N') {
-                    direction = 'O';
-                }
-                else if (direction == 'S') {
-                    direction = 'E';
-                }
-                else if (direction == 'E') {
-                    direction = 'N';
-                }
-                else if (direction == 'O') {
-                    direction = 'S';
-                }
-                instructions.remove();
-            }
-            else if (instructions.peek().equals("D")) {
-                if (direction == 'N') {
-                    direction = 'E';
-                }
-                else if (direction == 'S') {
-                    direction = 'O';
-                }
-                else if (direction == 'E') {
-                    direction = 'S';
-                }
-                else if (direction == 'O') {
-                    direction = 'N';
-                }
-                instructions.remove();
-            }
-        }
-        afficherPlateau();
-    }
     public static void afficherPlateau() {
         for (int ligne=0;ligne<=7;ligne++) {
             for (int colonne = 0; colonne <=7; colonne++) {
@@ -134,14 +69,99 @@ public class Plateau {
         }
         return false;
     }
-    public void Test(){
 
-    }
-    public void positionJoueur(int ligne, int colonne, int numj){
-        if (plateau[ligne][colonne]==' '){
+    public void deplacementJoueur(int ligne, int colonne, int numj){
+        if (numj<1 || numj>4 ){
+            plateau[ligne][colonne]=' ';
+        }
+        else{
             plateau[ligne][colonne]=(char)(numj+'0');
         }
     }
+    public boolean CaseMur(int ligne, int colonne){
+        if (plateau[ligne][colonne]=='P'|| plateau[ligne][colonne]=='G'){
+            return true;
+        }
+        return false;
+    }
+    public boolean CaseJoueur(int ligne,int colonne){
+        for (int i=1;i<5;i++){
+            if(plateau[ligne][colonne]==(char) (i + '0')){
+                return true;
+            }
+        }
+        return false;
+    }
+    public int CollisionJoueur(int ligne, int colonne){
+        int i;
+        for ( i=1;i<5;i++) {
+            if (plateau[ligne][colonne] == (char) (i + '0')) {
+                break;
+            }
+        }
+        return i;
+    }
+    public void Laser(int ligne, int colonne, char direction){
+        if (direction=='N'){
+            for (int i=1;i<=ligne;i++){
+                if (plateau[ligne-i][colonne]=='G'){
+                    plateau[ligne-i][colonne]=' ';
+                    break;
+                }
+            }
+        }
+        else if(direction=='S'){
+            for (int i=1;i<=7-ligne;i++){
+                if (plateau[ligne+i][colonne]=='G'){
+                    plateau[ligne+i][colonne]=' ';
+                    break;
+                }
+            }
+        }
+        else if(direction=='O'){
+            for (int i=1;i<=colonne;i++){
+                if (plateau[ligne][colonne-i]=='G'){
+                    plateau[ligne][colonne-i]=' ';
+                    break;
+                }
+            }
+        }
+        else if(direction=='E'){
+            for (int i=1;i<=7-colonne;i++){
+                if (plateau[ligne][colonne+i]=='G'){
+                    plateau[ligne][colonne+i]=' ';
+                    break;
+                }
+            }
+        }
+    }
+    public boolean CaseJoyau(int ligne, int colonne){
+        if (plateau[ligne][colonne]=='J'){
+            return true;
+        }
+        return false;
+    }
+    public void EffacerCase(int ligne,int colonne){
+        plateau[ligne][colonne]=' ';
+    }
+    public void PlacerMur(int ligne,int colonne, char Type){
+        if (plateau[ligne][colonne]==' '){
+            plateau[ligne][colonne]=Type;
+        }
+    }
+    /*
+
+    public boolean JoyauAccessible(int ligne,int colonne){
+        if (plateau[ligne+1][colonne]!=' ' || plateau[ligne-1][colonne]!=' ' || plateau[ligne][colonne+1]!=' ' || plateau[ligne][colonne-1]!=' ') {
+            return false;
+        }
+        int n=1;
+        while (plateau[ligne+1][colonne]==' ' || plateau[ligne-1][colonne]==' ' || plateau[ligne][colonne+1]==' ' || plateau[ligne][colonne-1]==' '){
+            
+        }
+    }
+     */
+
 
 }
 

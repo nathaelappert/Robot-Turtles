@@ -13,7 +13,6 @@ public class Joueur {
     }
 
  */
-
     public Joueur(int[] PositionJoueur,int numj,char Direction){
         this.PositionJoueur=PositionJoueur;
         this.NumeroJoueur=numj;

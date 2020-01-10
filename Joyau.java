@@ -20,10 +20,5 @@ public class Joyau {
     public static void main(String[] args) {
 
     }
-/*
-    public static void main(String[] args){
-        Joyau joyau = new Joyau("vert", 1, 1);
-    }
 
- */
 }
