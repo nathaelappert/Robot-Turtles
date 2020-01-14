@@ -10,14 +10,18 @@ import javax.imageio.ImageIO;
 import  javax.swing.JPanel;
 
 public class Panneau extends JPanel {
-    public void paintComponent(Graphics g){
+    Image img;
+    public Panneau(String image){
         try{
-            Image img = ImageIO.read(new File("C:\\Users\\apara\\RobotTurtles\\Accueil.jpg"));
-            g.drawImage(img, 0,0, this.getWidth(),this.getHeight(), this);
-        }catch (IOException e){
+            this.img = ImageIO.read(new File(image));
+        } catch (IOException e){
             e.printStackTrace();
         }
     }
+    public void paintComponent(Graphics g){
+        g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+    }
 }
+
 
 
