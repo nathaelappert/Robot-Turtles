@@ -8,11 +8,11 @@ public class MainJoueur {
 
 
     public MainJoueur(int numM) {
-        mainjoueur = new ArrayList<String>();
-        this.NumeroMain=numM;
+        mainjoueur = new ArrayList<String>(); // Comme le paquet c'est une liste de String
+        this.NumeroMain=numM; // Numéro de la main en fonction du numéro du joueur
     }
 
-    public void pioche(JeuxCartes paquet,int piocher) {
+    public void pioche(JeuxCartes paquet,int piocher) { // On pioche dans le paquet un nombre de carte en paramètre
         if (piocher <= paquet.Length()){
             for ( int i=0; i<piocher;i++){
                 mainjoueur.add(paquet.get(0));

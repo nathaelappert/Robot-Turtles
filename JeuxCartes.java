@@ -7,9 +7,9 @@ public class JeuxCartes{
     private ArrayList<String> Paquet;
     private int Numeropaquet;
 
-    public JeuxCartes(int nump) {
-        Paquet = new ArrayList<String>();
-        this.Numeropaquet=nump;
+    public JeuxCartes(int nump) { // constructeur
+        Paquet = new ArrayList<String>(); // Composé d'une liste de String
+        this.Numeropaquet=nump; // Le numéro de paquet en fonction du numéro du joueur
     }
 
     private boolean addCarte(String carte) {
@@ -22,7 +22,7 @@ public class JeuxCartes{
     }
 
 
-    public void CreaPaquet() {
+    public void CreaPaquet() { // On créer le paquet en multipliant le nombre de carte par son nom
         String Type[] = {"Bleue", "Jaune", "Violette", "Laser"};
         int Nombre[] = {18, 8, 8, 3};
         for (int i = 0; i < Type.length; i++) {
@@ -42,7 +42,7 @@ public class JeuxCartes{
     }
     public void Melanger(){
         Collections.shuffle(Paquet);
-    }
+    } // On mélange aléatoirement grâce à la fonction shuffle
     public int Length(){
         int NombreCarte=0;
         for (String carte : Paquet) {
@@ -62,33 +62,6 @@ public class JeuxCartes{
     }
 
     public static void main(String[] args) {
-        /*
-        JeuxCartes t = new JeuxCartes();
-        t.CreaPaquet();
-        t.Melanger();
-        System.out.println("Le jeu de carte est "+t.toString());
-        System.out.println("Le jeu de carte est "+t.Length());
-        MainJoueur main_joueur_1= new MainJoueur();
-        main_joueur_1.pioche(t,5);
-        System.out.println("Main: "+main_joueur_1.toString());
-        System.out.println("Taille "+t.Length());
-        Defausse d = new Defausse();
-        d.defausser(main_joueur_1,3);
-        System.out.println("Main: "+main_joueur_1.toString());
-        System.out.println("Défausse: "+d.toString());
-
-
-        JeuxCartes t2 = new JeuxCartes();
-        t2.CreaPaquet();
-        t2.Melanger();
-        System.out.println("Le jeu de carte est "+t2.toString());
-        MainJoueur main_joueur_2= new MainJoueur();
-        System.out.println("Main: "+main_joueur_2.toString());
-        System.out.println("Taille "+t2.Length());
-        Defausse defausse1 = new Defausse();
-        defausse1.defausser(1,t2);
-
-*/
 
     }
     

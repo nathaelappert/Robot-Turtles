@@ -1,14 +1,10 @@
 package com.company;
 
-import java.util.ArrayDeque;
-
+// Classe Main pour lancer le programme
 public class Main {
 
     public static void main(String[] args) {
-        Game game = new Game();
-        game.initialisationJeu();
-        game.Jouer();
-
+        Menu menu = new Menu();
 
     }
 }

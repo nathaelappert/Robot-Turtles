@@ -1,6 +1,6 @@
 package com.company;
 
-public class Joyau {
+public class Joyau { // Une classe que nous avons finalement pas utilisé pour simplifier le code
     private int[] position = new int[2];
     private String couleur;
 

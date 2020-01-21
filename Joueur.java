@@ -19,9 +19,9 @@ public class Joueur {
         this.DirectionJoueur=Direction;
     }
 
-    public void PositionInitiale(int nbrj, int numj){
+    public void PositionInitiale(int nbrj, int numj){ // Méthode qui initialise la position de chaque joueur en fonction du nombre de joueurs
         DirectionJoueur = 'S';
-        PositionJoueur[0] = 0;
+        PositionJoueur[0] = 6;
         switch(nbrj){
             case 2 : switch(numj){
                 case 1 : PositionJoueur[1] = 1; break;

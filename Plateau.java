@@ -1,22 +1,20 @@
 package com.company;
 
+
 import java.util.ArrayDeque;
 import java.util.Scanner;
 
 public class Plateau {
 
 
-
-    private static char[][] plateau;
-    private static int[] position= new int[2];
-    private static char direction='S';
+    public static char[][] plateau; // Matrice de char
     private static Scanner scanner = new Scanner(System.in);
 
     public Plateau(){
         plateau= new char[8][8];
     }
 
-    public void initialisation(int nombreJoueur) {
+    public void initialisation(int nombreJoueur) { // On initialise le plateau en console
         for (int ligne = 0; ligne <= 7; ligne++) {
             for (int colonne = 0; colonne <= 7; colonne++) {
                 switch(nombreJoueur){
@@ -63,14 +61,14 @@ public class Plateau {
             System.out.println('|');
         }
     }
-    public boolean CaseVide(int ligne,int colonne){
+    public boolean CaseVide(int ligne,int colonne){ // On verifie si la case est vide ou non
         if (plateau[ligne][colonne]==' '){
             return true;
         }
         return false;
     }
 
-    public void deplacementJoueur(int ligne, int colonne, int numj){
+    public void deplacementJoueur(int ligne, int colonne, int numj){ // Deplacement du joueur sur le plateau en prenant sa nouvelle position
         if (numj<1 || numj>4 ){
             plateau[ligne][colonne]=' ';
         }
@@ -78,13 +76,13 @@ public class Plateau {
             plateau[ligne][colonne]=(char)(numj+'0');
         }
     }
-    public boolean CaseMur(int ligne, int colonne){
+    public boolean CaseMur(int ligne, int colonne){ // On verifie si la case contient un mur de Glace ou Pierre
         if (plateau[ligne][colonne]=='P'|| plateau[ligne][colonne]=='G'){
             return true;
         }
         return false;
     }
-    public boolean CaseJoueur(int ligne,int colonne){
+    public boolean CaseJoueur(int ligne,int colonne){ // idem
         for (int i=1;i<5;i++){
             if(plateau[ligne][colonne]==(char) (i + '0')){
                 return true;
@@ -92,7 +90,7 @@ public class Plateau {
         }
         return false;
     }
-    public int CollisionJoueur(int ligne, int colonne){
+    public int CollisionJoueur(int ligne, int colonne){ // On récupère le numéro du joueur percuté
         int i;
         for ( i=1;i<5;i++) {
             if (plateau[ligne][colonne] == (char) (i + '0')) {
@@ -101,11 +99,14 @@ public class Plateau {
         }
         return i;
     }
-    public void Laser(int ligne, int colonne, char direction){
+    public void Laser(int ligne, int colonne, char direction){  // Détruit le mur de glace dans la direction du joueur
         if (direction=='N'){
             for (int i=1;i<=ligne;i++){
                 if (plateau[ligne-i][colonne]=='G'){
                     plateau[ligne-i][colonne]=' ';
+                    break;
+                }
+                else if (plateau[ligne-i][colonne]=='P'){
                     break;
                 }
             }
@@ -116,6 +117,9 @@ public class Plateau {
                     plateau[ligne+i][colonne]=' ';
                     break;
                 }
+                else if (plateau[ligne-i][colonne]=='P'){
+                    break;
+                }
             }
         }
         else if(direction=='O'){
@@ -124,12 +128,18 @@ public class Plateau {
                     plateau[ligne][colonne-i]=' ';
                     break;
                 }
+                else if (plateau[ligne-i][colonne]=='P'){
+                    break;
+                }
             }
         }
         else if(direction=='E'){
             for (int i=1;i<=7-colonne;i++){
                 if (plateau[ligne][colonne+i]=='G'){
                     plateau[ligne][colonne+i]=' ';
+                    break;
+                }
+                else if (plateau[ligne-i][colonne]=='P'){
                     break;
                 }
             }
@@ -142,13 +152,20 @@ public class Plateau {
         return false;
     }
     public void EffacerCase(int ligne,int colonne){
+
         plateau[ligne][colonne]=' ';
     }
+
     public void PlacerMur(int ligne,int colonne, char Type){
         if (plateau[ligne][colonne]==' '){
             plateau[ligne][colonne]=Type;
         }
     }
+
+    public static char[][] getPlateau() {
+        return plateau;
+    }
+
     /*
 
     public boolean JoyauAccessible(int ligne,int colonne){

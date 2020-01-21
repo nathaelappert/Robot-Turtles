@@ -2,10 +2,10 @@ package com.company;
 
 public class Mur {
 
-    boolean destructible;
-    char Type;
+    boolean destructible; // Le mur de Glace est destructible contrairement au mur de Pierre
+    String Type; // Pierre ou Glace
 
-    public Mur(boolean destructible,char Type){
+    public Mur(boolean destructible,String Type){
         this.destructible=destructible;
         this.Type=Type;
     }
@@ -13,7 +13,7 @@ public class Mur {
         return this.destructible;
     }
 
-    public char getType() {
+    public String getType() {
         return this.Type;
     }
 }
