@@ -113,7 +113,7 @@ public class Plateau {
                     plateau[ligne+i][colonne]=' ';
                     break;
                 }
-                else if (plateau[ligne-i][colonne]=='P'){
+                else if (plateau[ligne+i][colonne]=='P'){
                     break;
                 }
             }
@@ -124,7 +124,7 @@ public class Plateau {
                     plateau[ligne][colonne-i]=' ';
                     break;
                 }
-                else if (plateau[ligne-i][colonne]=='P'){
+                else if (plateau[ligne][colonne-i]=='P'){
                     break;
                 }
             }
@@ -135,7 +135,7 @@ public class Plateau {
                     plateau[ligne][colonne+i]=' ';
                     break;
                 }
-                else if (plateau[ligne-i][colonne]=='P'){
+                else if (plateau[ligne][colonne+i]=='P'){
                     break;
                 }
             }

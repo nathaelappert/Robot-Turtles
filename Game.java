@@ -118,7 +118,7 @@ public class Game{
                 break;
         }
         ListeProg = new ArrayList<ArrayDeque>(); // On initialise la liste des programmes
-        ListeProg.add(null);
+        ListeProg.add(null); // index 0 est null
         for (int i = 0; i < nbrjoueurs; i++){ // On ajoute le nombre de programme en fonction du nombre de joueurs
             ListeProg.add(new ArrayDeque());
         }
@@ -130,8 +130,8 @@ public class Game{
         fenetre.updatePlateau(plateau.getPlateau());// On update le plateau de la fenetre graphique en fonction de la console
         fenetre.updateCarte(MainDuJoueur);
         fenetre.updateMur(MurduJoueur);
-        fenetre.repaint();
-        fenetre.revalidate();
+        fenetre.repaint(); // Pas forcément obligatoire mais c'est un sécurité pour la mis à jour du plateau
+        fenetre.revalidate(); // idem
 
     }
     public void Jouer(){ // On lance le jeu
@@ -159,7 +159,7 @@ public class Game{
                     fenetre.updateMur(MurduJoueur);
                     break;
                 case 3:
-                    ExecuterProg(ListeProg.get(Tourdujoueur.getNum()));
+                    ExecuterProg(ListeProg.get(Tourdujoueur.getNum())); // On récupère le programme du joueur dans la liste
                     break;
             }
             System.out.println("Votre Main: "+MainDuJoueur.toString());
@@ -188,10 +188,10 @@ public class Game{
 
     public void prochainTour() { // Tous les paramètres du joueur change en fonction de son numéro
         int num = Tourdujoueur.getNum();
-        if (num < nbrjoueurs) {
+        if (num < nbrjoueurs) { // Pour passer du joueur 1 au joueur 2 par exemple
             num+=1;
         } else {
-            num = 1;
+            num = 1; // Pour passer du joueur 4 au joueur 1 par exemple
         }
         Tourdujoueur = getJoueur(num);
         Paquetdujoueur= getPaquet(num);
@@ -259,7 +259,12 @@ public class Game{
             }
             programme.add(choix);
         }while( programme.size()!=nombreCarte);
-        ListeProg.set(Tourdujoueur.getNum(), programme);
+
+        while (ListeProg.get(Tourdujoueur.getNum()).size()<5 && programme.size()!=0){ // On ajoute les instructions tant qu'elles ne dépassent pas 5
+            ListeProg.get(Tourdujoueur.getNum()).add(programme.peekFirst());
+            programme.removeFirst();
+        }
+
     }
 
     public void PlacerMur(){
