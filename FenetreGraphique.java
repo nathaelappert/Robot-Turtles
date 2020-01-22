@@ -9,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -17,11 +19,8 @@ public class FenetreGraphique extends JFrame {
     private JPanel contentPane;
     private JTextField NbrCarteDefausser;
     private JButton[][] Case = new JButton[8][8];
-    private JLabel Carte1;
-    private JLabel Carte2;
-    private JLabel Carte3;
-    private JLabel Carte4;
-    private JLabel Carte5;
+    private JButton[] Carte = new JButton[5];
+    private JButton[] Mur= new JButton[5];
 
     int taille = 8;
     ImageIcon Glace= new ImageIcon(new ImageIcon("/Users/Felix/IdeaProjects/RobotTurtle2/imagesTurtle/Glace.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
@@ -38,7 +37,6 @@ public class FenetreGraphique extends JFrame {
     ImageIcon CarteJaune=new ImageIcon(new ImageIcon("/Users/Felix/IdeaProjects/RobotTurtle2/imagesTurtle/cards/YellowCard.png").getImage().getScaledInstance(82, 100, Image.SCALE_DEFAULT));
     ImageIcon CarteViolette=new ImageIcon(new ImageIcon("/Users/Felix/IdeaProjects/RobotTurtle2/imagesTurtle/cards/PurpleCard.png").getImage().getScaledInstance(82, 100, Image.SCALE_DEFAULT));
     ImageIcon CarteLaser=new ImageIcon(new ImageIcon("/Users/Felix/IdeaProjects/RobotTurtle2/imagesTurtle/cards/LaserCard.png").getImage().getScaledInstance(82, 100, Image.SCALE_DEFAULT));
-
 
     public static void main(String[] args) {
 
@@ -78,10 +76,6 @@ public class FenetreGraphique extends JFrame {
         plateau.setBackground(new Color(0, 0, 0, 0));
         plateau.setBorder(new EmptyBorder(5, 5, 5, 5));
         plateau.setOpaque(false);
-        //plateau.add(tool, BorderLayout.PAGE_START);
-        //tool.setFloatable(false);
-        //plateau.setBorder(new LineBorder(new Color(0,0,0,30)));
-
 
         for (int i = 0; i < Case.length; i++) {
             for (int j = 0; j < Case[i].length; j++) {
@@ -138,38 +132,22 @@ public class FenetreGraphique extends JFrame {
         btnNewButton.setBounds(557, 319, 185, 29);
         contentPane.add(btnNewButton);
 
+        for(int i=0; i<5;i++) {
+            JButton b = new JButton();
+            b.setVisible(true);
+            Carte[i] = b;
+            Carte[i].setBounds(20+(90*i),520,82,108);
+            this.contentPane.add(Carte[i]);
+        }
 
-        JLabel ImageJoueur = new JLabel("");
-        ImageJoueur.setBackground(new Color(255, 255, 255));
-        ImageJoueur.setIcon(new ImageIcon(new ImageIcon("/Users/Felix/IdeaProjects/RobotTurtle2/imagesTurtle/Joueur1reduit.png").getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT)));
-        ImageJoueur.setBounds(176, 647, 110, 101);
-        contentPane.add(ImageJoueur);
+        for(int i=0; i<5;i++) {
+            JButton b = new JButton();
+            b.setVisible(true);
+            Mur[i] = b;
+            Mur[i].setBounds(20+(90*i),650,82,82);
+            this.contentPane.add(Mur[i]);
+        }
 
-
-        Carte1 = new JLabel("Carte1");
-        Carte1.setBounds(20, 520, 82, 108);
-        Carte1.setIcon(CarteBleue);
-        contentPane.add(Carte1);
-
-        Carte2 = new JLabel("Carte2");
-        Carte2.setBounds(110, 520, 82, 108);
-        Carte2.setIcon(CarteJaune);
-        contentPane.add(Carte2);
-
-        Carte3 = new JLabel("Carte3");
-        Carte3.setBounds(200, 520, 82, 108);
-        Carte3.setIcon(CarteViolette);
-        contentPane.add(Carte3);
-
-        Carte4 = new JLabel("Carte4");
-        Carte4.setBounds(290, 520, 82, 108);
-        Carte4.setIcon(CarteLaser);
-        contentPane.add(Carte4);
-
-        Carte5 = new JLabel("Carte5");
-        Carte5.setBounds(380, 520, 82, 108);
-        Carte5.setIcon(CarteBleue);
-        contentPane.add(Carte5);
 
         JButton Défausser = new JButton("Défausser des Cartes");
         Défausser.setBounds(557, 397, 185, 29);
@@ -206,34 +184,27 @@ public class FenetreGraphique extends JFrame {
             for(int j=0;j<8; j++) {
                 switch(plateau[i][j]) {
                     case 'J':
-                        Case[i][j].setIcon(this.JoyauRouge);
+                        Case[i][j].setIcon(JoyauRouge);
                         break;
                     case '1':
-                        System.out.println("Joueur");
-                        Case[i][j].setIcon(this.Joueur1);
+                        Case[i][j].setIcon(Joueur1);
                         break;
                     case '2':
-                        System.out.println("Joueur");
-                        Case[i][j].setIcon(this.Joueur2);
+                        Case[i][j].setIcon(Joueur2);
                         break;
                     case '3':
-                        System.out.println("Joueur");
-                        Case[i][j].setIcon(this.Joueur3);
+                        Case[i][j].setIcon(Joueur3);
                         break;
                     case '4':
-                        System.out.println("Joueur");
-                        Case[i][j].setIcon(this.Joueur4);
+                        Case[i][j].setIcon(Joueur4);
                         break;
                     case 'G':
-                        System.out.println("Glace");
-                        Case[i][j].setIcon(this.Glace);
+                        Case[i][j].setIcon(Glace);
                         break;
                     case 'P':
-                        System.out.println("Pierre");
-                        Case[i][j].setIcon(this.Pierre);
+                        Case[i][j].setIcon(Pierre);
                         break;
                     case ' ':
-                        System.out.println("Vide");
                         Case[i][j].setIcon(null);
                         break;
                 }
@@ -244,17 +215,47 @@ public class FenetreGraphique extends JFrame {
 
     public void updateCarte(MainJoueur mainJoueur){
         for (int i=0;i<mainJoueur.Length();i++){
-            switch (mainJoueur.get(i)){
+            switch (mainJoueur.get(i)) {
                 case "Bleue":
-                    Carte1.setIcon(CarteBleue);
+                    Carte[i].setIcon(CarteBleue);
                     break;
                 case "Violette":
-                    Carte1.setIcon(CarteViolette);
-
+                    Carte[i].setIcon(CarteViolette);
+                    break;
+                case "Jaune":
+                    Carte[i].setIcon(CarteJaune);
+                    break;
+                case "Laser":
+                    Carte[i].setIcon(CarteLaser);
+                    break;
+                default:
+                    Carte[i].setIcon(null);
             }
-
-
         }
+        for (int n=mainJoueur.Length();n<5;n++){
+            Carte[n].setIcon(null);
+        }
+
+        contentPane.repaint();
     }
+    public void updateMur(JeuxMur MurduJoueur){
+        for (int i=0;i<MurduJoueur.Length();i++){
+            switch (MurduJoueur.get(i)) {
+                case "Glace":
+                    Mur[i].setIcon(Glace);
+                    break;
+                case "Pierre":
+                    Mur[i].setIcon(Pierre);
+                    break;
+                default:
+                    Mur[i].setIcon(null);
+            }
+        }
+        for (int n=MurduJoueur.Length();n<5;n++){
+            Mur[n].setIcon(null);
+        }
+        contentPane.repaint();
+    }
+
 
 }

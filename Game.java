@@ -19,6 +19,7 @@ public class Game{
     private List<MainJoueur> ListeMain = new ArrayList<>(); // Liste des mains des joueurs
     private List<JeuxMur> ListeMurJoueur = new ArrayList<>(); // Liste de leurs murs
     public FenetreGraphique fenetre;
+    boolean FinduJeu=false; // On initialise à faux  la fin de partie
 
 
     public void initialisationJeu() {
@@ -126,14 +127,16 @@ public class Game{
         Paquetdujoueur= paquet1;
         MainDuJoueur= main_joueur1;
         MurduJoueur=listeMurjoueur1;
-        fenetre.updatePlateau(plateau.getPlateau()); // On update le plateau de la fenetre graphique en fonction de la console
+        fenetre.updatePlateau(plateau.getPlateau());// On update le plateau de la fenetre graphique en fonction de la console
+        fenetre.updateCarte(MainDuJoueur);
+        fenetre.updateMur(MurduJoueur);
         fenetre.repaint();
         fenetre.revalidate();
 
     }
     public void Jouer(){ // On lance le jeu
         fenetre.setVisible(true);
-        while (!FinduJeu(nbrjoueurs)){ // Tant que les joueurs n'ont pas atteint les joyaux on continue
+        do{ // Tant que les joueurs n'ont pas atteint les joyaux on continue
             int choix;
             do{
                 //fenetre.updateCarte(MainDuJoueur);
@@ -152,29 +155,8 @@ public class Game{
                     break;
                 case 2:
                     System.out.println("Votre Main: "+MurduJoueur.toString());
-                    System.out.println("Voulez vous placer un mur de Glace (entrez G) ou de Pierre (entrez P): ");
-                    char mur=scanner.next().charAt(0);
-                    System.out.println("A quelle ligne (0-7) ?: ");
-                    int ligne=scanner.nextInt();
-                    System.out.println("A quelle colonne (0-7) ?: ");
-                    int colonne=scanner.nextInt();
-                    plateau.PlacerMur(ligne,colonne,mur); // On place le mur en question
-                    if (mur=='G'){
-                        for(int i=0;i<MurduJoueur.Length();i++){
-                            if (MurduJoueur.get(i).equals("Glace")){
-                                MurduJoueur.remove(i); // On enlève le mur de la liste de mur du joueur
-                                break;
-                            }
-                        }
-                    }
-                    if (mur=='P'){
-                        for(int i=0;i<MurduJoueur.Length();i++){
-                            if (MurduJoueur.get(i).equals("Pierre")){
-                                MurduJoueur.remove(i);
-                                break;
-                            }
-                        }
-                    }
+                    PlacerMur();
+                    fenetre.updateMur(MurduJoueur);
                     break;
                 case 3:
                     ExecuterProg(ListeProg.get(Tourdujoueur.getNum()));
@@ -185,42 +167,24 @@ public class Game{
             System.out.println("Combien voulez vous défausser de cartes ?: ");
             Nbrdefausser = scanner.nextInt();
             if (Nbrdefausser>0){
-                defausse.defausser(MainDuJoueur,Nbrdefausser); // Defausse le nombre de carte souhaiter
+                defausse.defausser(MainDuJoueur,Nbrdefausser);// Defausse le nombre de carte souhaiter
+                fenetre.updateCarte(MainDuJoueur);
             }
 
             if (MainDuJoueur.Length()<5){ // On fait piocher le joueur jusqu'à qu'il est 5 cartes
                 MainDuJoueur.pioche(Paquetdujoueur,5-MainDuJoueur.Length());
+                fenetre.updateCarte(MainDuJoueur);
             }
             prochainTour(); // On change les paramètres du joueur : paquet, main , position etc..
-            fenetre.updatePlateau(Plateau.getPlateau()); // On update le plateau en console
+            fenetre.updatePlateau(Plateau.getPlateau());// On update le plateau en console
+            fenetre.updateCarte(MainDuJoueur);
+            fenetre.updateMur(MurduJoueur);
             fenetre.repaint();
             fenetre.revalidate();
-        }
+        }while(!FinduJeu);
+        System.exit(0);
     }
 
-    public  boolean FinduJeu(int nombreJoueur){ // Si la position du joueur se trouve sur un des joyaux, il gagne la partie
-        switch (nombreJoueur) {
-            case 2:
-                if (Tourdujoueur.PositionJoueur[0] == 7 && Tourdujoueur.PositionJoueur[1] == 3) {
-                    System.out.println("Fin du jeu 2");
-                    return true;
-                }
-                break;
-            case 3:
-                if (Tourdujoueur.PositionJoueur[0] == 7 && (Tourdujoueur.PositionJoueur[1] == 0 || Tourdujoueur.PositionJoueur[1] == 3 || Tourdujoueur.PositionJoueur[1] == 6)) {
-                    System.out.println("Fin du jeu 3");
-                    return true;
-                }
-                break;
-            case 4:
-                if (Tourdujoueur.PositionJoueur[0] == 7 && (Tourdujoueur.PositionJoueur[1] == 1 || Tourdujoueur.PositionJoueur[1] == 6)) {
-                    System.out.println("Fin du jeu 4");
-                    return true;
-                }
-                break;
-        }
-        return false;
-    }
 
     public void prochainTour() { // Tous les paramètres du joueur change en fonction de son numéro
         int num = Tourdujoueur.getNum();
@@ -298,10 +262,36 @@ public class Game{
         ListeProg.set(Tourdujoueur.getNum(), programme);
     }
 
+    public void PlacerMur(){
+        System.out.println("Voulez vous placer un mur de Glace (entrez G) ou de Pierre (entrez P): ");
+        char mur=scanner.next().charAt(0);
+        System.out.println("A quelle ligne (0-7) ?: ");
+        int ligne=scanner.nextInt();
+        System.out.println("A quelle colonne (0-7) ?: ");
+        int colonne=scanner.nextInt();
+        plateau.PlacerMur(ligne,colonne,mur); // On place le mur en question
+        if (mur=='G'){
+            for(int i=0;i<MurduJoueur.Length();i++){
+                if (MurduJoueur.get(i).equals("Glace")){
+                    MurduJoueur.remove(i); // On enlève le mur de la liste de mur du joueur
+                    break;
+                }
+            }
+        }
+        if (mur=='P'){
+            for(int i=0;i<MurduJoueur.Length();i++){
+                if (MurduJoueur.get(i).equals("Pierre")){
+                    MurduJoueur.remove(i);
+                    break;
+                }
+            }
+        }
+    }
+
     public void ExecuterProg(ArrayDeque<String> instructions){ // Execute le programme en paramètre
         System.out.println("Instructions: "+instructions);
         int nbrInstructions=instructions.size();
-        for (int i=0; i<nbrInstructions;i++) {
+        loop : for (int i=0; i<nbrInstructions;i++) {
             switch (instructions.peek()) { // On récupère le premier élément du programme
                 case "Bleue":
                     if (Tourdujoueur.DirectionJoueur == 'N' && Tourdujoueur.PositionJoueur[0] != 0) { // Pour éviter les sorties de plateau
@@ -324,6 +314,14 @@ public class Game{
                             plateau.deplacementJoueur(Tourdujoueur.PositionJoueur[0],Tourdujoueur.PositionJoueur[1],Tourdujoueur.getNum()); // mis à jour des nouvelles positions des deux joueurs
                             plateau.deplacementJoueur(getJoueur(numj).PositionJoueur[0],getJoueur(numj).PositionJoueur[1],numj);
                         }
+                        else if(plateau.CaseJoyau(Tourdujoueur.PositionJoueur[0] - 1, Tourdujoueur.PositionJoueur[1])){ // Si le joyau est atteint
+                            System.out.println("Bravo vous avez atteint le joyau !");
+                            plateau.EffacerCase(Tourdujoueur.PositionJoueur[0], Tourdujoueur.PositionJoueur[1]); // On fait tout de même le déplacement du joueur
+                            Tourdujoueur.PositionJoueur[0] -= 1;
+                            plateau.deplacementJoueur(Tourdujoueur.PositionJoueur[0], Tourdujoueur.PositionJoueur[1], Tourdujoueur.getNum());
+                            FinduJeu=true; // Le jeu est fini
+                            break loop;
+                        }
                     } // On recommence ce processus selon la direction du joueur
                     else if (Tourdujoueur.DirectionJoueur == 'S' && Tourdujoueur.PositionJoueur[0] != 7) {
                         if(plateau.CaseVide(Tourdujoueur.PositionJoueur[0] + 1,Tourdujoueur.PositionJoueur[1])) {
@@ -344,6 +342,14 @@ public class Game{
                             getJoueur(numj).PositionInitiale(nbrjoueurs, numj);
                             plateau.deplacementJoueur(Tourdujoueur.PositionJoueur[0],Tourdujoueur.PositionJoueur[1],Tourdujoueur.getNum());
                             plateau.deplacementJoueur(getJoueur(numj).PositionJoueur[0],getJoueur(numj).PositionJoueur[1],numj);
+                        }
+                        else if(plateau.CaseJoyau(Tourdujoueur.PositionJoueur[0] + 1, Tourdujoueur.PositionJoueur[1])){
+                            System.out.println("Bravo vous avez atteint le joyau !");
+                            plateau.EffacerCase(Tourdujoueur.PositionJoueur[0], Tourdujoueur.PositionJoueur[1]);
+                            Tourdujoueur.PositionJoueur[0] += 1;
+                            plateau.deplacementJoueur(Tourdujoueur.PositionJoueur[0], Tourdujoueur.PositionJoueur[1], Tourdujoueur.getNum());
+                            FinduJeu=true;
+                            break loop;
                         }
                     }
                     else if (Tourdujoueur.DirectionJoueur == 'E' && Tourdujoueur.PositionJoueur[1] != 7) {
@@ -366,6 +372,14 @@ public class Game{
                             plateau.deplacementJoueur(Tourdujoueur.PositionJoueur[0],Tourdujoueur.PositionJoueur[1],Tourdujoueur.getNum());
                             plateau.deplacementJoueur(getJoueur(numj).PositionJoueur[0],getJoueur(numj).PositionJoueur[1],numj);
                         }
+                        else if(plateau.CaseJoyau(Tourdujoueur.PositionJoueur[0], Tourdujoueur.PositionJoueur[1]+1)){
+                            System.out.println("Bravo vous avez atteint le joyau !");
+                            plateau.EffacerCase(Tourdujoueur.PositionJoueur[0], Tourdujoueur.PositionJoueur[1]);
+                            Tourdujoueur.PositionJoueur[1] += 1;
+                            plateau.deplacementJoueur(Tourdujoueur.PositionJoueur[0], Tourdujoueur.PositionJoueur[1], Tourdujoueur.getNum());
+                            FinduJeu=true;
+                            break loop;
+                        }
                     }
                     else if (Tourdujoueur.DirectionJoueur == 'O' && Tourdujoueur.PositionJoueur[1] != 0) {
                         if(plateau.CaseVide(Tourdujoueur.PositionJoueur[0],Tourdujoueur.PositionJoueur[1]-1)) {
@@ -386,6 +400,14 @@ public class Game{
                             getJoueur(numj).PositionInitiale(nbrjoueurs, numj);
                             plateau.deplacementJoueur(Tourdujoueur.PositionJoueur[0],Tourdujoueur.PositionJoueur[1],Tourdujoueur.getNum());
                             plateau.deplacementJoueur(getJoueur(numj).PositionJoueur[0],getJoueur(numj).PositionJoueur[1],numj);
+                        }
+                        else if(plateau.CaseJoyau(Tourdujoueur.PositionJoueur[0], Tourdujoueur.PositionJoueur[1]-1)){
+                            System.out.println("Bravo vous avez atteint le joyau !");
+                            plateau.EffacerCase(Tourdujoueur.PositionJoueur[0], Tourdujoueur.PositionJoueur[1]);
+                            Tourdujoueur.PositionJoueur[1] -= 1;
+                            plateau.deplacementJoueur(Tourdujoueur.PositionJoueur[0], Tourdujoueur.PositionJoueur[1], Tourdujoueur.getNum());
+                            FinduJeu=true;
+                            break loop;
                         }
                     }
                     else if (Tourdujoueur.DirectionJoueur == 'N' && Tourdujoueur.PositionJoueur[0] == 0){ // Si le joueur sort retour à la case départ

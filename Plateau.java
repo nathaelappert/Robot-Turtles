@@ -69,13 +69,9 @@ public class Plateau {
     }
 
     public void deplacementJoueur(int ligne, int colonne, int numj){ // Deplacement du joueur sur le plateau en prenant sa nouvelle position
-        if (numj<1 || numj>4 ){
-            plateau[ligne][colonne]=' ';
-        }
-        else{
-            plateau[ligne][colonne]=(char)(numj+'0');
-        }
+        plateau[ligne][colonne]=(char)(numj+'0');
     }
+
     public boolean CaseMur(int ligne, int colonne){ // On verifie si la case contient un mur de Glace ou Pierre
         if (plateau[ligne][colonne]=='P'|| plateau[ligne][colonne]=='G'){
             return true;

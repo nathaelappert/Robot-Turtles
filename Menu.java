@@ -11,7 +11,7 @@ import java.awt.*;
 import java.io.File;
 
 
-public class Menu extends JFrame {
+public class Menu extends JFrame { // Ce Menu empêche le plateau de se mettre à jour donc lancez directement la classe Game sans cette classe
 
     public Menu() { // Affichage de départ du jeu
         JPanel pan = new JPanel();
