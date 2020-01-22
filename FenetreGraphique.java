@@ -9,16 +9,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
+
 import java.io.File;
 import java.io.IOException;
 
 public class FenetreGraphique extends JFrame {
 
-    private JPanel contentPane;
+    private JPanel contentPane; // Panel qui va contenir le tableau de jbutton
     private JTextField NbrCarteDefausser;
-    private JButton[][] Case = new JButton[8][8];
+    private JButton[][] Case = new JButton[8][8]; // Tableau de JButton pour le plateau
     private JButton[] Carte = new JButton[5];
     private JButton[] Mur= new JButton[5];
 
@@ -38,6 +37,7 @@ public class FenetreGraphique extends JFrame {
     ImageIcon CarteViolette=new ImageIcon(new ImageIcon("/Users/Felix/IdeaProjects/RobotTurtle2/imagesTurtle/cards/PurpleCard.png").getImage().getScaledInstance(82, 100, Image.SCALE_DEFAULT));
     ImageIcon CarteLaser=new ImageIcon(new ImageIcon("/Users/Felix/IdeaProjects/RobotTurtle2/imagesTurtle/cards/LaserCard.png").getImage().getScaledInstance(82, 100, Image.SCALE_DEFAULT));
 
+    /*
     public static void main(String[] args) {
 
         File imageCheck = new File("/Users/Felix/IdeaProjects/RobotTurtle2/imagesTurtle/Wall2.png");
@@ -60,6 +60,8 @@ public class FenetreGraphique extends JFrame {
         });
     }
 
+     */
+
 
 
     public FenetreGraphique(){
@@ -71,7 +73,7 @@ public class FenetreGraphique extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        JPanel plateau = new JPanel(new GridLayout(8, 8));
+        JPanel plateau = new JPanel(new GridLayout(8, 8)); // Grille qui va accueillir les boutons
         plateau.setBounds(8, 11, 477, 477);
         plateau.setBackground(new Color(0, 0, 0, 0));
         plateau.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -79,8 +81,8 @@ public class FenetreGraphique extends JFrame {
 
         for (int i = 0; i < Case.length; i++) {
             for (int j = 0; j < Case[i].length; j++) {
-                JButton bouton = new JButton();
-                bouton.setOpaque(false);
+                JButton bouton = new JButton(); // On créer chaque bouton
+                bouton.setOpaque(false); // On rend transparent les boutons pour avoi l'image de fond visible
                 bouton.setContentAreaFilled(false);
                 bouton.setBorderPainted(false);
 
@@ -89,18 +91,16 @@ public class FenetreGraphique extends JFrame {
         }
         for (int i = 0; i < taille; i++) {
             for (int j = 0; j < taille; j++) {
-                //Case[j][i].setBackground(new Color(0,0,0,30));
-                plateau.add(Case[i][j]);
-                //Case[7][i].setIcon(new ImageIcon("/Users/Felix/IdeaProjects/RobotTurtle2/imagesTurtle/Wall2.png"));
-                //Case[i][7].setIcon(Joueur2);
+                plateau.add(Case[i][j]); // On ajoute les boutons dans la grille
+
             }
         }
 
         plateau.setVisible(true);
-        contentPane.add(plateau);
+        contentPane.add(plateau); // puis dans le JPanel
 
 
-        JLabel lblNewLabel = new JLabel("New label");
+        JLabel lblNewLabel = new JLabel("New label"); // Image de fond du plateau
         lblNewLabel.setBackground(new Color(245, 222, 179));
         lblNewLabel.setIcon(new ImageIcon("/Users/Felix/IdeaProjects/RobotTurtle2/imagesTurtle/plateau.jpg"));
         lblNewLabel.setBounds(6, 0, 485, 500);
@@ -132,7 +132,7 @@ public class FenetreGraphique extends JFrame {
         btnNewButton.setBounds(557, 319, 185, 29);
         contentPane.add(btnNewButton);
 
-        for(int i=0; i<5;i++) {
+        for(int i=0; i<5;i++) { // Création des Jbutton pour les cartes
             JButton b = new JButton();
             b.setVisible(true);
             Carte[i] = b;
@@ -140,7 +140,7 @@ public class FenetreGraphique extends JFrame {
             this.contentPane.add(Carte[i]);
         }
 
-        for(int i=0; i<5;i++) {
+        for(int i=0; i<5;i++) { // Création des Jbutton pour les murs
             JButton b = new JButton();
             b.setVisible(true);
             Mur[i] = b;
@@ -153,23 +153,23 @@ public class FenetreGraphique extends JFrame {
         Défausser.setBounds(557, 397, 185, 29);
         contentPane.add(Défausser);
 
-        NbrCarteDefausser = new JTextField();
+        NbrCarteDefausser = new JTextField(); // L'utilisateur pourrra entrer le nombre de carte à défausser
         NbrCarteDefausser.setBounds(586, 438, 130, 26);
         contentPane.add(NbrCarteDefausser);
         NbrCarteDefausser.setColumns(10);
 
-        JTextArea textArea = new JTextArea();
+        JTextArea textArea = new JTextArea(); // Affichage d'informations comme "Tour du joueur 3" par exemple
         textArea.setBounds(556, 522, 186, 100);
         contentPane.add(textArea);
 
-        JLabel lblNewLabel_1 = new JLabel("New label");
+        JLabel lblNewLabel_1 = new JLabel("New label"); // Image présente à droite de l'interface
         lblNewLabel_1.setIcon(new ImageIcon("/Users/Felix/IdeaProjects/RobotTurtle2/imagesTurtle/background.jpeg"));
         lblNewLabel_1.setBounds(496, 0, 304, 772);
         contentPane.add(lblNewLabel_1);
 
     }
 
-    public String getNombrejoueurs(){
+    public String getNombrejoueurs(){ // OptionPane qui s'affiche et renvoie le nombre de joueurs
         String[] choix = {"2", "3", "4"};
         JOptionPane jop = new JOptionPane(), jop2 = new JOptionPane();
         String nbrjoueurs = (String)jop.showInputDialog(null,
@@ -179,7 +179,7 @@ public class FenetreGraphique extends JFrame {
         JOptionPane.showMessageDialog(null, "La partie se jouera avec " + nbrjoueurs+" joueurs");
         return nbrjoueurs;
     }
-    public void updatePlateau(char[][] plateau) {
+    public void updatePlateau(char[][] plateau) { // Méthode qui met à joueur le tableau de jbutton en fonction du plateau en console
         for(int i=0; i<8;i++) {
             for(int j=0;j<8; j++) {
                 switch(plateau[i][j]) {
@@ -210,10 +210,10 @@ public class FenetreGraphique extends JFrame {
                 }
             }
         }
-        contentPane.repaint();
+        contentPane.repaint(); // Met à jour le tableau ( ce n'est pas obligatoire mais une sécurité )
     }
 
-    public void updateCarte(MainJoueur mainJoueur){
+    public void updateCarte(MainJoueur mainJoueur){ // mis à jour des cartes du joueur dont c'est le tour
         for (int i=0;i<mainJoueur.Length();i++){
             switch (mainJoueur.get(i)) {
                 case "Bleue":
@@ -232,13 +232,13 @@ public class FenetreGraphique extends JFrame {
                     Carte[i].setIcon(null);
             }
         }
-        for (int n=mainJoueur.Length();n<5;n++){
+        for (int n=mainJoueur.Length();n<5;n++){ // S'il a moins de 5 cartes on affiche aucune image
             Carte[n].setIcon(null);
         }
 
         contentPane.repaint();
     }
-    public void updateMur(JeuxMur MurduJoueur){
+    public void updateMur(JeuxMur MurduJoueur){ // mis à jour des murs du joueur dont c'est le tour
         for (int i=0;i<MurduJoueur.Length();i++){
             switch (MurduJoueur.get(i)) {
                 case "Glace":
@@ -251,7 +251,7 @@ public class FenetreGraphique extends JFrame {
                     Mur[i].setIcon(null);
             }
         }
-        for (int n=MurduJoueur.Length();n<5;n++){
+        for (int n=MurduJoueur.Length();n<5;n++){ // Dès qu'un mur est utilisé on enlève l'image
             Mur[n].setIcon(null);
         }
         contentPane.repaint();
